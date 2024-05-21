@@ -1,0 +1,8 @@
+.related img {
+    max-height: none;
+}
+
+.woocommerce-input-wrapper,
+.woocommerce form .form-row label {
+    width: 100%;
+}

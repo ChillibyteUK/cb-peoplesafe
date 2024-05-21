@@ -1,0 +1,92 @@
+<?php
+/**
+ * The template for displaying the footer
+ *
+ * Contains the closing of the #content div and all content after
+ *
+ * @package cb-peoplesafe
+ */
+
+// Exit if accessed directly.
+defined('ABSPATH') || exit;
+
+?>
+<div class="footer pb-3">
+    <div class="container py-5">
+        <div class="row px-4 px-md-0">
+            <div class="col-md-6 col-lg-3 text-center text-md-left mb-4">
+                <img src="<?=get_stylesheet_directory_uri()?>/img/ps-logo-full.svg">
+                <div class="py-4">The UK's leading provider of technology-enabled employee safety solutions.</div>
+                <a href="/contact-us/" class="btn btn-primary">Get in touch</a>
+                <div class="social mb-4">
+                    <?=do_shortcode('[social_in_icon]')?>
+                    <?=do_shortcode('[social_yt_icon]')?>
+                    <?=do_shortcode('[social_tw_icon]')?>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center text-md-left mb-4">
+                <div class="nav-title">Products</div>
+                <?php wp_nav_menu(array('theme_location' => 'footer_menu1')); ?>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center text-md-left mb-4">
+                <div class="nav-title">Sectors</div>
+                <ul class="menu">
+                    <?php
+                    // $terms = get_terms( array(
+                    //     'taxonomy' => 'sectors',
+                    //     'hide_empty' => true,
+                    // ) );
+            
+                    // foreach ($terms as $c) {
+                    //     echo '<li><a href="/sectors/' . $c->slug . '/">' . $c->name . '</a></li>';
+                    // }
+                    $parent = get_page_by_path( 'sectors' );
+                    $q = new WP_Query(array(
+                        'post_type' => 'page',
+                        'post_parent' => $parent->ID,
+                        'posts_per_page' => -1
+                    ));
+                    while ($q->have_posts()) {
+                        $q->the_post();
+                        echo '<li><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></li>';
+                    }
+                    wp_reset_postdata();
+                    ?>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center text-md-left">
+                <div class="nav-title">Resources</div>
+                <?php wp_nav_menu(array('theme_location' => 'footer_menu2')); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="colophon">
+    <div class="container d-flex justify-content-between flex-wrap py-2">
+        <div>&copy; <?=date('Y')?> Skyguard Ltd T/A Peoplesafe. Company Registration Number: 04107459. All rights reserved. Peoplesafe is part of the Send for Help Group.</div>
+        <a href="https://www.chillibyte.co.uk/" rel="nofollow noopener" target="_blank" class="cb" title="Digital Marketing by Chillibyte"></a>
+    </div>
+</div>
+</div><!-- #page -->
+<!-- div class="side-buttons side-buttons--left">
+    <div class="side-button shop-button">E-Store</div>
+</div -->
+<div class="side-buttons side-buttons--right">
+    <a href="/contact-us/">
+        <div class="side-button enquire-button">Enquire</div>
+    </a>
+</div>
+<?php
+	wp_footer();
+if (get_field('gtm_property', 'options')) {
+    ?>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?=get_field('gtm_property', 'options')?>" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <?php
+}
+?>
+</body>
+
+</html>
+
